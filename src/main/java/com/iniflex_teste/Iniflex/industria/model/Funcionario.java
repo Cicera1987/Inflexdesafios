@@ -1,5 +1,9 @@
 package com.iniflex_teste.Iniflex.industria.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.time.LocalDate;
@@ -8,28 +12,21 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Objects;
 
+@Setter
+@Getter
 public class Funcionario  extends Pessoa{
   private BigDecimal salario;
   private String funcao;
 
+  public Funcionario() {
+    super();
+  }
   public Funcionario(String nome, LocalDate dataNascimento,BigDecimal salario, String funcao) {
     super(nome, dataNascimento);
     this.funcao = funcao;
     this.salario = salario;
   }
-  public BigDecimal getSalario() {
-    return salario;
-  }
-  public void setSalario(BigDecimal salario) {
-    this.salario = salario;
-  }
 
-  public String getFuncao() {
-    return funcao;
-  }
-  public void setFuncao(String funcao) {
-    this.funcao = funcao;
-  }
   public int getIdade() {
     return Period.between(getDataNascimento(), LocalDate.now()).getYears();
   }

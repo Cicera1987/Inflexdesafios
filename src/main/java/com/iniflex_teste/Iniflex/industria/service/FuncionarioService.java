@@ -2,26 +2,29 @@ package com.iniflex_teste.Iniflex.industria.service;
 
 import com.iniflex_teste.Iniflex.industria.model.Funcionario;
 import lombok.Getter;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Service
 public class FuncionarioService {
   @Getter
   private final List<Funcionario> funcionarios = new ArrayList<>();
   private final DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-  private final DecimalFormat formatterMoeda = new DecimalFormat("#,##0.00");
+  private final NumberFormat formatterMoeda = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
 
   public void adicionar(Funcionario funcionario) {
     funcionarios.add(funcionario);
   }
 
-  public void removerPorNome(String nome) {
-    funcionarios.removeIf(f -> f.getNome().equalsIgnoreCase(nome));
+  public boolean removerPorNome(String nome) {
+    return funcionarios.removeIf(f -> f.getNome().equalsIgnoreCase(nome));
   }
 
   public void imprimirTodos() {
@@ -84,5 +87,21 @@ public class FuncionarioService {
       System.out.printf("%s ganha %.2f salários mínimos%n", f.getNome(), qtd);
     });
   }
+
+  public boolean atualizarPorNome(String nome, Funcionario funcionarioAtualizado) {
+    for (int i = 0; i < funcionarios.size(); i++) {
+      Funcionario f = funcionarios.get(i);
+      if (f.getNome().equalsIgnoreCase(nome)) {
+        // Atualiza os campos desejados (exemplo completo, pode ajustar conforme seu modelo)
+        f.setNome(funcionarioAtualizado.getNome());
+        f.setDataNascimento(funcionarioAtualizado.getDataNascimento());
+        f.setSalario(funcionarioAtualizado.getSalario());
+        f.setFuncao(funcionarioAtualizado.getFuncao());
+        return true;
+      }
+    }
+    return false;
+  }
+
 
 }
